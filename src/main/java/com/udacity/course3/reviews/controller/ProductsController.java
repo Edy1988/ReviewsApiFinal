@@ -10,6 +10,7 @@ import org.springframework.web.client.HttpServerErrorException;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -25,24 +26,17 @@ public class ProductsController {
 
     }
 
-    /**
-     * Finds a product by id.
-     *
-     * @param id The id of the product.
-     * @return The product if found, or a 404 not found.
-     */
     @RequestMapping(value = "/{id}")
     public ResponseEntity<?> findById(@PathVariable("id") Integer id) {
-        throw new HttpServerErrorException(HttpStatus.NOT_IMPLEMENTED);
+        Optional<Product> productOptional = productRepository.findById(id);
+        return productOptional
+                .map(product -> new ResponseEntity<>(product, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    /**
-     * Lists all products.
-     *
-     * @return The list of products.
-     */
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public List<?> listProducts() {
-        throw new HttpServerErrorException(HttpStatus.NOT_IMPLEMENTED);
+        return productRepository.findAll();
+
     }
 }
