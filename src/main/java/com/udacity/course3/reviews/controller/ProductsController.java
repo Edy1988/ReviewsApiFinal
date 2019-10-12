@@ -1,31 +1,28 @@
 package com.udacity.course3.reviews.controller;
 
+import com.udacity.course3.reviews.entity.Product;
+import com.udacity.course3.reviews.productRepository.ProductRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpServerErrorException;
 
+import javax.validation.Valid;
 import java.util.List;
 
-/**
- * Spring REST controller for working with product entity.
- */
+
 @RestController
 @RequestMapping("/products")
 public class ProductsController {
+    @Autowired
+    ProductRepository productRepository;
 
-    // TODO: Wire JPA repositories here
-
-    /**
-     * Creates a product.
-     *
-     * 1. Accept product as argument. Use {@link RequestBody} annotation.
-     * 2. Save product.
-     */
     @RequestMapping(value = "/", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public void createProduct() {
-        throw new HttpServerErrorException(HttpStatus.NOT_IMPLEMENTED);
+    public void createProduct(@Valid @RequestBody Product product) {
+        productRepository.save(product);
+
     }
 
     /**
