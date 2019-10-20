@@ -25,7 +25,7 @@ public class ReviewsController {
     public ResponseEntity<?> createReviewForProduct(@PathVariable("productId") Integer productId, @Valid @RequestBody Review review) {
         Optional<Product> optionalProduct = productRepository.findById(productId);
         if (optionalProduct.isPresent()) {
-            review.setProductId(optionalProduct.get());
+            review.setProductId(productId);
             reviewRepository.save(review);
             return new ResponseEntity<>(HttpStatus.CREATED);
         } else {

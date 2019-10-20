@@ -14,9 +14,8 @@ public class Comment {
 	@Column(name = "comment_content")
 	private String commentContent;
 
-	@ManyToOne(targetEntity = Review.class)
-	@JoinColumn(name = "review_id")
-	private Review review;
+	@Column(name = "review_id")
+	private Integer reviewId;
 
 	public Integer getCommentId() {
 		return commentId;
@@ -34,11 +33,11 @@ public class Comment {
 		this.commentContent = commentContent;
 	}
 
-	public Review getReviewId() {
-		return review;
+	public Integer getReviewId() {
+		return reviewId;
 	}
 
-	public void setReviewId(Review review) {
-		this.review = review;
+	public void setReviewId(Integer reviewId) {
+		this.reviewId = reviewId;
 	}
 }

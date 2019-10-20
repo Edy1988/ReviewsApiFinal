@@ -1,50 +1,40 @@
 package com.udacity.course3.reviews;
 
 import com.udacity.course3.reviews.CommentRepository.CommentRepository;
-import com.udacity.course3.reviews.ReviewRepository.ReviewRepository;
 import com.udacity.course3.reviews.entity.Comment;
 import com.udacity.course3.reviews.entity.Product;
-import com.udacity.course3.reviews.entity.Review;
 import com.udacity.course3.reviews.productRepository.ProductRepository;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
 
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.*;
 
-@RunWith(SpringRunner.class)
 @DataJpaTest
+@ExtendWith(SpringExtension.class)
 public class ReviewsApplicationTests {
 
 	@Autowired ProductRepository productRepository;
-	@Autowired ReviewRepository reviewRepository;
 	@Autowired CommentRepository commentRepository;
 
-	@Before
+	private final Integer reviewId = 123;
+
+	@BeforeEach
 	public void setUp() {
 		Product product = new Product();
 		product.setProductName("new");
 		productRepository.save(product);
 
-		Review review = new Review();
-		review.setProductId(product);
-		review.setReviewContent("some review");
-		reviewRepository.save(review);
-
 		Comment comment = new Comment();
-		comment.setReviewId(review);
+		comment.setReviewId(reviewId);
 		comment.setCommentContent("some comment");
 		commentRepository.save(comment);
-	}
-
-	@Test
-	public void contextLoads() {
 	}
 
 	@Test
@@ -54,50 +44,15 @@ public class ReviewsApplicationTests {
 	}
 
 	@Test
-	public void testReviewEntity() {
-		Review savedReview = reviewRepository.findAll().get(0);
-		assertEquals("some review", savedReview.getReviewContent());
-	}
-
-	@Test
 	public void testCommentEntity() {
 		Comment savedComment = commentRepository.findAll().get(0);
-		assertEquals("some comment", (savedComment).getCommentContent());
-	}
-
-	@Test
-	public void testFindProductFromReview() {
-		Product savedProduct = productRepository.findAll().get(0);
-		Review savedReview = reviewRepository.findAll().get(0);
-
-		Product productFromReview = savedReview.getProductId();
-
-		assertEquals(savedProduct, productRepository.findById(productFromReview.getProductId()).get());
-	}
-
-	@Test
-	public void testFindReviewByComment() {
-		Review savedReview = reviewRepository.findAll().get(0);
-		Comment savedComment = commentRepository.findAll().get(0);
-
-		Review reviewFromComment = savedComment.getReviewId();
-
-		assertEquals(savedReview, reviewRepository.findById(reviewFromComment.getReviewId()).get());
-	}
-
-	@Test
-	public void testReviewRepository() {
-		Product savedProduct = productRepository.findAll().get(0);
-		List<Review> reviews = reviewRepository.findAllByProductId(savedProduct.getProductId());
-
-		assertNotNull(reviews);
-		assertThat(reviews.get(0).getReviewContent(), equalTo("some review"));
+		assertEquals("some comment", savedComment.getCommentContent());
+		assertEquals(reviewId, savedComment.getReviewId());
 	}
 
 	@Test
 	public void testCommentRepository() {
-		Review savedReview = reviewRepository.findAll().get(0);
-		List<Comment> comments = commentRepository.findAllByReviewId(savedReview.getReviewId());
+		List<Comment> comments = commentRepository.findAllByReviewId(reviewId);
 
 		assertNotNull(comments);
 		assertThat(comments.get(0).getCommentContent(), equalTo("some comment"));

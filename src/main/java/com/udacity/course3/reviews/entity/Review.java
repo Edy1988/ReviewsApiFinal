@@ -1,22 +1,18 @@
 package com.udacity.course3.reviews.entity;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import javax.persistence.*;
 
-@Entity
-@Table(name = "reviews")
+@Document("reviews")
 public class Review {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "review_id")
 	private Integer reviewId;
 
-	@Column(name = "review_content")
 	private String reviewContent;
 
-	@ManyToOne(targetEntity = Product.class)
-	@JoinColumn(name="product_id")
-	private Product product;
+	private Integer productId;
 
 	public Integer getReviewId() {
 		return reviewId;
@@ -34,11 +30,11 @@ public class Review {
 		this.reviewContent = reviewContent;
 	}
 
-	public void setProductId(Product product) {
-		this.product = product;
+	public void setProductId(Integer productId) {
+		this.productId = productId;
 	}
 
-	public Product getProductId() {
-		return product;
+	public Integer getProductId() {
+		return productId;
 	}
 }
