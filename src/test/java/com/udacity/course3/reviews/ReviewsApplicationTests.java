@@ -44,10 +44,6 @@ public class ReviewsApplicationTests {
 	}
 
 	@Test
-	public void contextLoads() {
-	}
-
-	@Test
 	public void testProductEntity() {
 		Product savedProduct = productRepository.findAll().get(0);
 		assertEquals("new", savedProduct.getProductName());
@@ -102,6 +98,5 @@ public class ReviewsApplicationTests {
 		assertNotNull(comments);
 		assertThat(comments.get(0).getCommentContent(), equalTo("some comment"));
 	}
-
 }
 

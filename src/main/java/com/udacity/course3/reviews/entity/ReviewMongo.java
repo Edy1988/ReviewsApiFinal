@@ -12,7 +12,8 @@ public class ReviewMongo {
 		@Id
 		private Integer reviewId;
 		private String reviewContent;
-		private Product productId;
+		private Product product;
+		private Integer productId;
 
 		public Integer getReviewId() {
 			return reviewId;
@@ -34,7 +35,7 @@ public class ReviewMongo {
 			this.productId = productId;
 		}
 
-		public Product getProductId() {
+		public Integer getProductId() {
 			return productId;
 		}
 	}
