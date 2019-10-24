@@ -1,4 +1,4 @@
-package com.udacity.course3.reviews.repositories.Mongo.MongoReviewRepository;
+package com.udacity.course3.reviews.repositories;
 
 import com.udacity.course3.reviews.entity.Review;
 import com.udacity.course3.reviews.entity.ReviewMongo;
