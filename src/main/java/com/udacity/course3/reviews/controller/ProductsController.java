@@ -1,7 +1,7 @@
 package com.udacity.course3.reviews.controller;
 
 import com.udacity.course3.reviews.entity.Product;
-import com.udacity.course3.reviews.repositories.productRepository.ProductRepository;
+import com.udacity.course3.reviews.repositories.MySQL.ProductRepository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,11 +1,11 @@
 package com.udacity.course3.reviews;
 
-import com.udacity.course3.reviews.repositories.CommentRepository.CommentRepository;
-import com.udacity.course3.reviews.repositories.ReviewRepository.ReviewRepository;
+import com.udacity.course3.reviews.repositories.MySQL.CommentRepository.CommentRepository;
+import com.udacity.course3.reviews.repositories.MySQL.ReviewRepository.ReviewRepository;
 import com.udacity.course3.reviews.entity.Comment;
 import com.udacity.course3.reviews.entity.Product;
 import com.udacity.course3.reviews.entity.Review;
-import com.udacity.course3.reviews.repositories.productRepository.ProductRepository;
+import com.udacity.course3.reviews.repositories.MySQL.ProductRepository.ProductRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
