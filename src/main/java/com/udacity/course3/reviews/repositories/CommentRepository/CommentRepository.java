@@ -1,4 +1,4 @@
-package com.udacity.course3.reviews.CommentRepository;
+package com.udacity.course3.reviews.repositories.CommentRepository;
 
 import com.udacity.course3.reviews.entity.Comment;
 import org.springframework.data.jpa.repository.JpaRepository;
