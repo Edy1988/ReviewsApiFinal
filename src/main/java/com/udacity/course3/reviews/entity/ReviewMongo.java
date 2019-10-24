@@ -15,7 +15,8 @@ public class ReviewMongo {
 		private Product product;
 		private Integer productId;
 
-		public Integer getReviewId() {
+
+	public Integer getReviewId() {
 			return reviewId;
 		}
 
