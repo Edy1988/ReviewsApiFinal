@@ -22,9 +22,7 @@ public class Review {
 		return reviewId;
 	}
 
-	public void setReviewId(Integer reviewId) {
-		this.reviewId = reviewId;
-	}
+	public void setReviewId(Integer reviewId) { this.reviewId = reviewId; }
 
 	public String getReviewContent() {
 		return reviewContent;
