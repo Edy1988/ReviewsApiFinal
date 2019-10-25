@@ -1,46 +1,50 @@
 package com.udacity.course3.reviews.entity;
 
 import org.springframework.data.mongodb.core.mapping.Document;
-
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-
 @Document("reviews")
-
-public class ReviewMongo {
-
-
-		@Id
-		private Integer reviewId;
-		private String reviewContent;
-		private Product product;
-		private Integer productId;
-
+public class ReviewDocument {
+	@Id
+	private Integer reviewId;
+	private String reviewContent;
+	private Integer productId;
+	private List<CommentDocument> commentDocuments = new ArrayList<>();
 
 	public Integer getReviewId() {
-			return reviewId;
-		}
-
-		public void setReviewId(Integer reviewId) {
-			this.reviewId = reviewId;
-		}
-
-		public String getReviewContent() {
-			return reviewContent;
-		}
-
-		public void setReviewContent(String reviewContent) {
-			this.reviewContent = reviewContent;
-		}
-
-		public void setProductId(Product product) {
-			this.productId = productId;
-		}
-
-		public Integer getProductId() {
-			return productId;
-		}
+		return reviewId;
 	}
+
+	public void setReviewId(Integer reviewId) {
+		this.reviewId = reviewId;
+	}
+
+	public String getReviewContent() {
+		return reviewContent;
+	}
+
+	public void setReviewContent(String reviewContent) {
+		this.reviewContent = reviewContent;
+	}
+
+	public void setProductId(Integer productId) {
+		this.productId = productId;
+	}
+
+	public Integer getProductId() {
+		return productId;
+	}
+
+	public List<CommentDocument> getCommentDocuments() {
+		return commentDocuments;
+	}
+
+	public void add(CommentDocument comment) {
+		this.commentDocuments.add(comment);
+	}
+}
 
 
