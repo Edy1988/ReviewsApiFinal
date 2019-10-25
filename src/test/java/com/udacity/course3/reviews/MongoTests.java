@@ -1,15 +1,18 @@
 package com.udacity.course3.reviews;
 
-import com.mongodb.BasicDBObjectBuilder;
-import com.mongodb.DBObject;
-import com.udacity.course3.reviews.entity.Review;
-import com.udacity.course3.reviews.entity.ReviewMongo;
+import com.udacity.course3.reviews.entity.Comment;
+import com.udacity.course3.reviews.entity.CommentDocument;
+import com.udacity.course3.reviews.entity.ReviewDocument;
+import com.udacity.course3.reviews.repositories.Mongo.MongoReviewRepository;
+import org.junit.After;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -17,17 +20,34 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @ExtendWith(SpringExtension.class)
 public class MongoTests {
 
+	@Autowired MongoReviewRepository mongoReviewRepository;
+
+	@AfterEach
+	public void tearDown() {
+		mongoReviewRepository.deleteAll();
+	}
+
 	@Test
-	public void testReviewEntity(@Autowired MongoTemplate mongoTemplate) {
-		DBObject review = BasicDBObjectBuilder.start()
-				.add("reviewContent", "some review")
-				.add("productId", 123)
-				.get();
+	public void testReviewDocument() {
+		CommentDocument comment = new CommentDocument();
+		comment.setCommentContent("some comment");
+		comment.setCommentId(123);
 
-		mongoTemplate.save(review, "reviews");
+		ReviewDocument review = new ReviewDocument();
+		review.setReviewId(123);
+		review.setProductId(456);
+		review.setReviewContent("some review");
+		review.add(comment);
 
-		ReviewMongo savedReview = mongoTemplate.findAll(ReviewMongo.class, "reviews").get(0);
+		mongoReviewRepository.save(review);
+
+		ReviewDocument savedReview = mongoReviewRepository.findAll().get(0);
+		CommentDocument savedComment = savedReview.getCommentDocuments().get(0);
+		assertEquals(123, savedReview.getReviewId().intValue());
+		assertEquals(456, savedReview.getProductId().intValue());
 		assertEquals("some review", savedReview.getReviewContent());
-		assertEquals(123, savedReview.getProductId().intValue());	}
+		assertEquals(123, comment.getCommentId().intValue());
+		assertEquals("some comment", comment.getCommentContent());
+	}
 
 }
