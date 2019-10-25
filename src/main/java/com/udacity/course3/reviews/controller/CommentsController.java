@@ -1,5 +1,8 @@
 package com.udacity.course3.reviews.controller;
 
+import com.udacity.course3.reviews.entity.CommentDocument;
+import com.udacity.course3.reviews.entity.ReviewDocument;
+import com.udacity.course3.reviews.repositories.Mongo.MongoReviewRepository;
 import com.udacity.course3.reviews.repositories.MySQL.CommentRepository.CommentRepository;
 import com.udacity.course3.reviews.repositories.MySQL.ReviewRepository.ReviewRepository;
 import com.udacity.course3.reviews.entity.Comment;
@@ -17,9 +20,9 @@ import java.util.Optional;
 @RequestMapping("/comments")
 public class CommentsController {
 
-    @Autowired
-    private CommentRepository commentRepository;
-    private ReviewRepository reviewRepository;
+    @Autowired private CommentRepository commentRepository;
+    @Autowired private ReviewRepository reviewRepository;
+    @Autowired private MongoReviewRepository mongoReviewRepository;
 
     @RequestMapping(value = "/reviews/{reviewId}", method = RequestMethod.POST)
     public ResponseEntity<?> createCommentForReview(@PathVariable("reviewId") Integer reviewId, @Valid @RequestBody Comment comment) {
@@ -27,6 +30,18 @@ public class CommentsController {
         if (review.isPresent()) {
             comment.setReviewId(review.get());
             commentRepository.save(comment);
+
+            Optional<ReviewDocument> optionalMongoReview = mongoReviewRepository.findById(reviewId);
+            if (optionalMongoReview.isPresent()) {
+                CommentDocument mongoComment = new CommentDocument();
+                mongoComment.setCommentId(comment.getCommentId());
+                mongoComment.setCommentContent(comment.getCommentContent());
+
+                ReviewDocument mongoReview = optionalMongoReview.get();
+                mongoReview.add(mongoComment);
+                mongoReviewRepository.save(mongoReview);
+            }
+
             return new ResponseEntity<>(HttpStatus.CREATED);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
